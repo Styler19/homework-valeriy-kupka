@@ -1,86 +1,86 @@
-//  Строки. Задачи.
-let str = 'some test string';
+//  1. На основе строки “i am in the easycode” сделать новую строку где первые буквы каждого слова будут в верхнем регистре. Использовать for или while.
 
-//  1. Получить первую и последнюю буквы строки
+let string = 'i am in the easycode';
+let stringFinal = '';
 
-let strOne = str[0] + str[str.length - 1];
-console.log(strOne);
+for (let i = 0; i < string.length; i++) {
+   string[i - 1] === ' '
+   ? stringFinal += string[i].toUpperCase()
+   : i === 0
+      ?  stringFinal += string[i].toUpperCase()
+      :  stringFinal += string[i]
+}
 
-//  2. Сделать первую и последнюю буквы в верхнем регистре
+console.log(stringFinal);
 
-let strTwo = str[0] + str[str.length - 1];
-console.log(strTwo.toLocaleUpperCase());
+//  2. Дана строка “tseb eht ma i”. Используя циклы, сделать строку-перевертыш (то есть последняя буква становится первой, предпоследняя - второй итд).
 
-//  3. Найти положение слова ‘string’ в строке
+let string2 = 'tseb eht ma i';
+let stringFinal2 = '';
 
-let strThree = str.indexOf('string');
-console.log(strThree);
+for (let i = string2.length - 1; i >= 0; i--) {
+   stringFinal2 += string2[i];
+}
 
-//  4. Найти положение второго пробела (“вручную” ничего не считать)
+console.log(stringFinal2);
 
-let strFour1 = str.indexOf(' ') + 1;
-let strFour2 = str.slice(strFour1);
-let strFour3 = strFour2.indexOf(' ') + strFour1 - 1;
-console.log(strFour3);
+//  3. Факториал числа - произведение всех натуральных чисел от 1 до n включительно: 3! = 3*2*1, 5! = 5*4*3*2*1. С помощью циклов вычислить факториал числа 10. Использовать for.
+//10 * 9 * 8 * 7 * 6 * 5 * 4 * 3 * 2 * 1 = 
 
-//  5. Получить строку с 5-го символа длиной 4 буквы
+let number3 = 10; // Factorial
+let numberFinal3 = 1;
+        
+for (let i = 1; i <= number3; i++) {
+   numberFinal3 *= i;
+}
 
-let strFive = 5;
-let strFive2 = str.slice(strFive, strFive + 4);
-console.log(strFive2);
+console.log(numberFinal3);
 
-//  6. Получить строку с 5-го по 9-й символы
+//  4. На основе строки “JavaScript is a pretty good language” сделать новую строку, где каждое слово начинается с большой буквы, а пробелы удалены. Использовать for.
 
-let strSix = str.slice(5, 9);
-console.log(strSix);
+let string4 = 'JavaScript is a pretty good language';
+let stringFinal4 = string4.split(' ');
 
-//  7. Получить новую строку из исходной путем удаления последних 6-и символов (то есть исходная строка без последних 6и символов)
+for (let i = 0; i < stringFinal4.length; i++) {
+   stringFinal4[i] = stringFinal4[i][0].toUpperCase() + stringFinal4[i].slice(1);
+}
 
-let strSeven = str.slice(0, str.length - 6);
-console.log(strSeven);
+stringFinal4 = stringFinal4.join('');
+console.log(stringFinal4);
 
-//  8. Из двух переменных a=20 и b=16 получить переменную string, в которой будет содержаться текст “2016”
+//  5. Найти все нечетные числа в массиве от 1 до 15 включительно и вывести их в консоль. Массив [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15] Использовать for of.
 
-let a = 20;
-let b = 16;
-let strEight = Number(String(a) + b);
-console.log(strEight);
+let number5 = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15];
+let numberFinal5 = [];
 
-// Числа. Задачи.
+for (let list of number5) {
+   let list2 = list / 2;
 
-//  1. Получить число pi из Math и округлить его до 2-х знаков после точки
+   if (parseInt(list2) === list2) {
+      numberFinal5.push(list);
+   }
+}
 
-let pi = Math.PI;
-let numOne = Number(pi.toFixed(2));
-console.log(numOne);
+console.log(numberFinal5);
 
-//  2. Используя Math, найти максимальное и минимальное числа из представленного ряда 15, 11, 16, 12, 51, 12, 13, 51
+//  6. Дан объект:
+//  let list = {
+//       name: ‘denis’,
+//       work: ‘easycode’,
+//       age: 29
+//  }
+//  Перебрать объект и если значение в свойстве это строка то переписать ее всю в верхнем регистре. Использовать for in.
 
-let numTwo = Math.min(15, 11, 16, 12, 51, 12, 13, 51);
-let numTwo2 = Math.max(15, 11, 16, 12, 51, 12, 13, 51);
-console.log(`${numTwo} and ${numTwo2}`);
+let list = {
+   name: 'denis',
+   work: 'easycode',
+   age: 29
+}
 
+for (userlist in list) {
+   if (typeof(list[userlist]) === 'string') {
+      list[userlist] = list[userlist].toUpperCase();
+   }
+}
 
-//  3. Работа с Math.random:
-//      a. Получить случайное число и округлить его до двух цифр после запятой
-
-let numThree_a = Math.random();
-let numThree_a2 = Number(numThree_a.toFixed(2));
-console.log(numThree_a2);
-
-//      b. Получить случайное целое число от 0 до X. X - любое произвольное число.
-
-min = 0;
-max = 100;
-let numThree_b = Math.floor(Math.random() * (max - min)) + min;
-console.log(numThree_b);
-
-//  4. Проверить результат вычисления 0.6 + 0.7 - как привести к нормальному виду (1.3)?
-
-let numFour = Number((0.6 + 0.7).toFixed(1));
-console.log(numFour);
-
-//  5. Получить число из строки ‘100$’
-
-let numFive = parseInt('100$');
-console.log(numFive);
+console.log(list);
