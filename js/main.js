@@ -52,7 +52,7 @@ if(car.age > 5){
 let item = { name: 'Intel core i7', price: '100$', discount: '15%' };
 
 if(item.hasOwnProperty('discount') === true && item.discount !== ""){
-    item.priceWithDiscount = parseInt(item.price) - parseInt(item.discount); 
+    item.priceWithDiscount = parseInt(item.price) / 100 * (100 - parseInt(item.discount)); 
     console.log(item.priceWithDiscount + '$');
 } else {
     console.log(item.price);
