@@ -1,79 +1,86 @@
-//  If else. Задачи.
+//  1. На основе строки “i am in the easycode” сделать новую строку где первые буквы каждого слова будут в верхнем регистре. Использовать for или while.
 
-//  1. Если переменная равна “hidden”, присвоить ей значение “visible”, иначе - “hidden”.
+let string = 'i am in the easycode';
+let stringFinal = '';
 
-let someLet1 = 'hidden';
-
-if(someLet1 = 'hidden'){
-    someLet1 = 'visible';
-} else {
-    someLet1 = 'hidden';
+for (let i = 0; i < string.length; i++) {
+   string[i - 1] === ' '
+   ? stringFinal += string[i].toUpperCase()
+   : i === 0
+      ?  stringFinal += string[i].toUpperCase()
+      :  stringFinal += string[i]
 }
 
-//  2. Используя if, записать условие:
-//      a. если переменная равна нулю, присвоить ей 1;
+console.log(stringFinal);
 
-let someLet2A = 0;
+//  2. Дана строка “tseb eht ma i”. Используя циклы, сделать строку-перевертыш (то есть последняя буква становится первой, предпоследняя - второй итд).
 
-if(someLet2A === 0){
-    someLet2A = 1;
+let string2 = 'tseb eht ma i';
+let stringFinal2 = '';
+
+for (let i = string2.length - 1; i >= 0; i--) {
+   stringFinal2 += string2[i];
 }
 
-//      b. если меньше нуля - строку “less then zero”;
+console.log(stringFinal2);
 
-let someLet2B = -1;
+//  3. Факториал числа - произведение всех натуральных чисел от 1 до n включительно: 3! = 3*2*1, 5! = 5*4*3*2*1. С помощью циклов вычислить факториал числа 10. Использовать for.
+//10 * 9 * 8 * 7 * 6 * 5 * 4 * 3 * 2 * 1 = 
 
-if(someLet2B < 0){
-    someLet2B = 'less then zero';
+let number3 = 10; // Factorial
+let numberFinal3 = 1;
+        
+for (let i = 1; i <= number3; i++) {
+   numberFinal3 *= i;
 }
 
-//      c. если больше нуля - используя оператор “присвоение”, переменную умножить на 10 (использовать краткую запись).
+console.log(numberFinal3);
 
-someLet2C = 1;
+//  4. На основе строки “JavaScript is a pretty good language” сделать новую строку, где каждое слово начинается с большой буквы, а пробелы удалены. Использовать for.
 
-if(someLet2C > 0){
-    someLet2C = someLet2C * 10;
+let string4 = 'JavaScript is a pretty good language';
+let stringFinal4 = string4.split(' ');
+
+for (let i = 0; i < stringFinal4.length; i++) {
+   stringFinal4[i] = stringFinal4[i][0].toUpperCase() + stringFinal4[i].slice(1);
 }
 
-//  3. Дан объект let car = { name: 'Lexus', age: 10, create: 2008, needRepair: false }. Написать условие если возраст машины больше 5 лет то нужно вывести в консоль сообщение 'Need Repair' и свойство needRepair в объекте car изменить на true; иначе изменить на false.
+stringFinal4 = stringFinal4.join('');
+console.log(stringFinal4);
 
-let car = { name: 'Lexus', age: 10, create: 2008, needRepair: false };
+//  5. Найти все нечетные числа в массиве от 1 до 15 включительно и вывести их в консоль. Массив [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15] Использовать for of.
 
-if(car.age > 5){
-    car.needRepair = true;
-    console.log('Need Repair');
-} else {
-    car.needRepair = false;
+let number5 = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15];
+let numberFinal5 = [];
+
+for (let list of number5) {
+   let list2 = list / 2;
+
+   if (parseInt(list2) === list2) {
+      numberFinal5.push(list);
+   }
 }
 
+console.log(numberFinal5);
 
-//  4. Дан объект let item = { name: 'Intel core i7', price: '100$', discount: '15%' }. Написать условие если у item есть поле discount и там есть значение то в объекте item создать поле priceWithDiscount и записать туда цену с учетом скидки и вывести ее в консоль, обратите внимание что поля discount и price это строки и вам из них нужно получить числа чтобы выполнить расчет. иначе если поля discount нет то вывести просто поле price в консоль.
+//  6. Дан объект:
+//  let list = {
+//       name: ‘denis’,
+//       work: ‘easycode’,
+//       age: 29
+//  }
+//  Перебрать объект и если значение в свойстве это строка то переписать ее всю в верхнем регистре. Использовать for in.
 
-let item = { name: 'Intel core i7', price: '100$', discount: '15%' };
-
-if(item.hasOwnProperty('discount') === true && item.discount !== ""){
-    item.priceWithDiscount = parseInt(item.price) - parseInt(item.discount); 
-    console.log(item.priceWithDiscount + '$');
-} else {
-    console.log(item.price);
+let list = {
+   name: 'denis',
+   work: 'easycode',
+   age: 29
 }
 
-//  5. Дан следующий код:
-//      let product = {
-//      name: “Яблоко”,
-//      price: “10$”
-//      };
-//      let min = 10; // минимальная цена
-//      let max = 20; // максимальная цена
-//Написать условие если цена товара больше или равна минимальной цене и меньше или равна максимальной цене то вывести в консоль название этого товара, иначе вывести в консоль что товаров не найдено.
-
-let product = { name: 'Яблоко', price: '10$' };
-
-let min = 10;
-let max = 20;
-
-if(parseInt(product.price) >= min && parseInt(product.price) <= max){
-    alert(product.name);
-} else {
-    alert('Товаров не найдено');
+for (userlist in list) {
+   if (typeof(list[userlist]) === 'string') {
+      list[userlist] = list[userlist].toUpperCase();
+   }
 }
+
+console.log(list);
