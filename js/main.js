@@ -1,86 +1,125 @@
-//  1. На основе строки “i am in the easycode” сделать новую строку где первые буквы каждого слова будут в верхнем регистре. Использовать for или while.
+// 1. Создать функцию multiply, которая будет принимать любое количество чисел и возвращать их произведение: multiply(1,2,3) = 6 (1*2*3) Если нет ни одного аргумента, вернуть ноль: multiply() // 0
 
-let string = 'i am in the easycode';
-let stringFinal = '';
+var multiply = function(a = 0) {
+   let result = 1;
 
-for (let i = 0; i < string.length; i++) {
-   string[i - 1] === ' '
-   ? stringFinal += string[i].toUpperCase()
-   : i === 0
-      ?  stringFinal += string[i].toUpperCase()
-      :  stringFinal += string[i]
+   if (a) {
+      for (let i = 0; i < arguments.length; i++) {
+         result *= arguments[i];
+      }
+   } else {
+      result = 0;
+   };
+
+   return result;
 }
 
-console.log(stringFinal);
+// 2. Создать функцию, которая принимает строку и возвращает строку-перевертыш: reverseString(‘test’) // “tset”.
 
-//  2. Дана строка “tseb eht ma i”. Используя циклы, сделать строку-перевертыш (то есть последняя буква становится первой, предпоследняя - второй итд).
+var reverseString = function(string) {
+   let result = '';
 
-let string2 = 'tseb eht ma i';
-let stringFinal2 = '';
-
-for (let i = string2.length - 1; i >= 0; i--) {
-   stringFinal2 += string2[i];
-}
-
-console.log(stringFinal2);
-
-//  3. Факториал числа - произведение всех натуральных чисел от 1 до n включительно: 3! = 3*2*1, 5! = 5*4*3*2*1. С помощью циклов вычислить факториал числа 10. Использовать for.
-//10 * 9 * 8 * 7 * 6 * 5 * 4 * 3 * 2 * 1 = 
-
-let number3 = 10; // Factorial
-let numberFinal3 = 1;
-        
-for (let i = 1; i <= number3; i++) {
-   numberFinal3 *= i;
-}
-
-console.log(numberFinal3);
-
-//  4. На основе строки “JavaScript is a pretty good language” сделать новую строку, где каждое слово начинается с большой буквы, а пробелы удалены. Использовать for.
-
-let string4 = 'JavaScript is a pretty good language';
-let stringFinal4 = string4.split(' ');
-
-for (let i = 0; i < stringFinal4.length; i++) {
-   stringFinal4[i] = stringFinal4[i][0].toUpperCase() + stringFinal4[i].slice(1);
-}
-
-stringFinal4 = stringFinal4.join('');
-console.log(stringFinal4);
-
-//  5. Найти все нечетные числа в массиве от 1 до 15 включительно и вывести их в консоль. Массив [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15] Использовать for of.
-
-let number5 = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15];
-let numberFinal5 = [];
-
-for (let list of number5) {
-   let list2 = list / 2;
-
-   if (parseInt(list2) === list2) {
-      numberFinal5.push(list);
+   for (let i = string.length - 1; i >= 0; i--) {
+      result += string[i];
    }
+
+   return result;
 }
 
-console.log(numberFinal5);
+// 3. Создать функцию, которая в качестве аргумента принимает строку из букв и возвращает строку, где каждый символ разделен пробелом и заменен на юникод-значение символа: getCodeStringFromText(‘hello’) // “104 101 108 108 111” подсказка: для получения кода используйте специальный метод
 
-//  6. Дан объект:
-//  let list = {
-//       name: ‘denis’,
-//       work: ‘easycode’,
-//       age: 29
-//  }
-//  Перебрать объект и если значение в свойстве это строка то переписать ее всю в верхнем регистре. Использовать for in.
+var getCodeStringFromText = function(text) {
+   let preResult = text.split('');
+   let result;
 
-let list = {
-   name: 'denis',
-   work: 'easycode',
-   age: 29
-}
-
-for (userlist in list) {
-   if (typeof(list[userlist]) === 'string') {
-      list[userlist] = list[userlist].toUpperCase();
+   for (let i = 0; i < text.length; i++) {
+      preResult[i] = text.charCodeAt(i);
    }
+   result = preResult.join(' ');
+
+   return result;
 }
 
-console.log(list);
+// 4. Создать функцию угадай число. Она принимает число от 1-10 (обязательно проверить что число не больше 10 и не меньше 0). Генерирует рандомное число от 1-10 и сравнивает с переданным числом если они совпали то возвращает “Вы выиграли” если нет то “Вы не угадали ваше число 8 а выпало число 5”. Числа в строке указаны как пример вы подставляете реальные числа.
+
+var guessTheNumberGame = function(number) {
+   let result,
+       gameNumber;
+   let max = 10;
+   let min = 1;
+   number = Number(number); 
+
+   if (number) {
+      if (number > min - 1 && number < max + 1) {
+         gameNumber = Math.floor(Math.random() * (max - min) + min);
+         result = number === gameNumber
+         ? 'Вы выиграли'
+         : `Вы не угадали ваше число ${number} а выпало число ${gameNumber}`;
+      } else {
+         result = `Напишите число от ${min} до ${max}`;
+      }
+   } else {
+      result = `Напишите число от ${min} до ${max}`;
+   }
+
+   return result;
+}
+
+// 5. Создать функцию, которая принимает число n и возвращает массив, заполненный числами от 1 до n: getArray(10); // [1,2,3,4,5,6,7,8,9,10]
+
+var getArray = function(n) {
+   let result = [];
+
+   for (let i = 0; i < n; i++) {
+      result[i] = i + 1;
+   }
+
+   return result;
+}
+
+// 6. Создать функцию, которая принимает массив, а возвращает новый массив с дублированными элементами входного массива: doubleArray([1,2,3]) // [1,2,3,1,2,3]
+
+var doubleArray = function(array) {
+   let result;
+   let arrayString = array.join(' ');
+
+   result = `${arrayString} ${arrayString}`;
+   result = result.split(' ');
+
+   return result;
+}
+
+// 7. Создать функцию, которая принимает произвольное (любое) число массивов и удаляет из каждого массива первый элемент, а возвращает массив из оставшихся значений: changeCollection([1,2,3], [‘a’, ’b’, ‘c’]) → [ [2,3], [‘b’, ‘c’] ], changeCollection([1,2,3]) → [ [2,3] ] и т.д.
+
+var changeCollection = function() {
+
+   for (let i = 0; i < arguments.length; i++) {
+      arguments[i].shift();
+   }
+
+   return arguments;
+}
+
+// 8. Создать функцию которая принимает массив пользователей, поле на которое хочу проверить и значение на которое хочу проверять. Проверять что все аргументы переданы. Возвращать новый массив с пользователями соответсвующие указанным параметрам. funcGetUsers(users, “gender”, “male”); // [ {name: “Denis”, age: “29”, gender: “male”} , {name: “Ivan”, age: “20”, gender: “male”} ]
+
+let users = [ {name: 'Denis', age: '29', gender: 'male'},
+              {name: 'Ivan', age: '20', gender: 'male'},
+              {name: 'Vlad', age: '18', gender: 'male'},
+              {name: 'Valera', age: '23', gender: 'male'},
+              {name: 'Nastya', age: '16', gender: 'female'}
+            ];
+
+var funcGetUsers = function(users, property, value) {
+  let result = [];
+  value = String(value);
+
+  if (users && property && value) {
+      for (let i = 0; i < users.length; i++) {
+         if (users[i][property] === value) {
+            result.push(users[i]);
+         }
+      }
+   }
+
+  return result;
+}
