@@ -22,7 +22,7 @@ const getTextFromUl = (element) => {
     let linkArray = [];
 
     element.querySelectorAll('a').forEach( link => {
-        linkArray.push(link.innerHTML);
+        linkArray.push(link.textContent);
     });
 
     return linkArray;
@@ -93,7 +93,11 @@ document.querySelector('ul').appendChild(liFragment);
 const listOfLinks = Array.from(document.querySelectorAll('a')),
       filteredListOfLinks = listOfLinks.filter(link => link.closest('ul'));
 
-filteredListOfLinks.forEach(link => link.appendChild(document.createElement('strong')));
+let strongElement = document.createElement('strong'),
+    fragmentForLink = document.createDocumentFragment();
+
+filteredListOfLinks.forEach( (link, index) => {
+});
 
 //  3. В начало документа (в начало body) добавить картинку img с атрибутами src и alt (текст придумайте сами). В src добавьте реальный url к картинке. Для создания элемента используйте метод createElement. 
 
@@ -108,7 +112,7 @@ document.body.insertAdjacentElement('afterbegin', imageElement);
 
 const markElement = document.querySelector('mark');
 
-markElement.insertAdjacentText('beforeend', 'green');
+markElement.textContent += ' green';
 markElement.classList.add('green');
 
 //  5. Отсортировать li внутри списка в обратном порядке (по тексту внутри)
