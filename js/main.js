@@ -34,13 +34,23 @@ for (let i = 1; i < elementChild.length - 1; i++) {
 //  isParent(document.querySelector('ul'), document.querySelector('mark'));
 //  // false так ul НЕ является родительским элементом для mark
 
+const isParent = (parent, child) => {
+
+    for (let index = child; index != document.body; index = index.parentElement) {
+        if (index === parent) {
+            return true;
+        }
+    }
+    
+    return false;
+}
+
 //  2. Получить список всех ссылок, которые не находятся внутри списка ul
 
-for (let i = 0; i < document.getElementsByTagName('a').length; i++) {
-    if (document.getElementsByTagName('a')[i].closest('ul') === null) {
-        console.log(document.getElementsByTagName('a')[i]);
-    }
-}
+const  arrayOfLinks = Array.from(document.querySelectorAll('a'));
+let filteredLinks = arrayOfLinks.filter(link => !link.closest('ul'));
+
+console.log(filteredLinks);
 
 //  3. Найти элемент, который находится перед и после списка ul
 
