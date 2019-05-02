@@ -113,14 +113,12 @@ markElement.classList.add('green');
 
 //  5. Отсортировать li внутри списка в обратном порядке (по тексту внутри)
 
-let fragment = document.createDocumentFragment();
+let listChild = Array.from(document.querySelector('ul').children),
+    fragmentUl = document.createDocumentFragment();
 
-for (let index = 0; 0 != document.querySelector('ul').children.length; index++) {
-    fragment.appendChild(document.querySelector('ul').children[0])
-};
+listChild.reverse();
+listChild.forEach(element => {
+    fragmentUl.appendChild(element);
+});
 
-for (let index = fragment.children.length; index > 0; index--) {
-    let childrenFragment = fragment.children[index - 1];
-
-    document.querySelector('ul').insertAdjacentElement('beforeend', childrenFragment) 
-};
+document.querySelector('ul').appendChild(fragmentUl);
