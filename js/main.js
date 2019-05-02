@@ -2,21 +2,21 @@
 //  методов получить (в консоль):
 //  1. head
 
-console.log(document.head);
+console.log('1.', document.head);
 
 //  2. body
 
-console.log(document.body);
+console.log('2.', document.body);
 
 //  3. все дочерние элементы body и вывести их в
 //  консоль.
 
-console.log(document.body.children);
+console.log('3.', document.body.children);
 
 //  4. первый div и все его дочерние узлы
 //      а) вывести все дочерние узлы в консоль
 
-console.log(document.body.firstElementChild.children);
+console.log('4.', document.body.firstElementChild.children);
 
 //      б) вывести в консоль все дочерние узлы,
 //      кроме первого и последнего
@@ -50,7 +50,7 @@ const isParent = (parent, child) => {
 const  arrayOfLinks = Array.from(document.querySelectorAll('a'));
 let filteredLinks = arrayOfLinks.filter(link => !link.closest('ul'));
 
-console.log(filteredLinks);
+console.log('2.', filteredLinks);
 
 //  3. Найти элемент, который находится перед и после списка ul
 
