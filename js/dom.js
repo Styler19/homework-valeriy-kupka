@@ -93,12 +93,13 @@ document.querySelector('ul').appendChild(liFragment);
 const listOfLinks = Array.from(document.querySelectorAll('a')),
       filteredListOfLinks = listOfLinks.filter(link => link.closest('ul'));
 
-let strongElement = document.createElement('strong'),
-    fragmentForLink = document.createDocumentFragment();
+filteredListOfLinks.forEach(link => {
+    let strongElement = document.createElement('strong');
 
-filteredListOfLinks.forEach( (link, index) => {
+    strongElement.innerHTML = link.innerHTML;
+    link.innerHTML = '';
+    link.appendChild(strongElement);
 });
-
 //  3. В начало документа (в начало body) добавить картинку img с атрибутами src и alt (текст придумайте сами). В src добавьте реальный url к картинке. Для создания элемента используйте метод createElement. 
 
 const imageElement = document.createElement('img');
