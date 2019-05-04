@@ -16,16 +16,19 @@ console.log('3.', document.body.children);
 //  4. первый div и все его дочерние узлы
 //      а) вывести все дочерние узлы в консоль
 
-console.log('4.', document.body.firstElementChild.children);
+console.log('4(a).', document.body.firstElementChild.children);
 
 //      б) вывести в консоль все дочерние узлы,
 //      кроме первого и последнего
 
 const elementChild = document.body.firstElementChild.children;
+let arrayElementChild = [];
 
 for (let i = 1; i < elementChild.length - 1; i++) {
-    console.log(elementChild[i]);
+    arrayElementChild.push(elementChild[i]);
 }
+
+console.log('4(b).', arrayElementChild);
 
 //  1. Создать функцию, которая принимает два элемента. Функция проверяет, является ли первый элемент родителем для второго:
 //  isParent(parent, child);
@@ -54,16 +57,14 @@ console.log('2.', filteredLinks);
 
 //  3. Найти элемент, который находится перед и после списка ul
 
-console.log(document.querySelector('ul').previousElementSibling, document.querySelector('ul').nextElementSibling);
+console.log('3.', document.querySelector('ul').previousElementSibling, document.querySelector('ul').nextElementSibling);
 
 //  4. Посчитать количество элементов li в списке
  
-console.log(document.querySelectorAll('ul li').length);
+console.log('4.', document.querySelectorAll('ul li').length);
 
 //  5. В коде с занятия написать функцию по редактированию задачи. 
 
-
+// app.js
 
 //  6. Подумать и улучшить функцию generateId();
-
-
