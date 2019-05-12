@@ -1,129 +1,55 @@
-//  1. Найти параграф и получить его текстовое содержимое (только текст!)
+//  1.По нажатию на кнопку "btn-msg" должен появиться алерт с тем текстом который находится в атрибуте data-text у кнопки.
 
-let pElementText = document.querySelector('p').textContent;
+let btnMsg = document.getElementById('btn-msg');
 
-console.log('1.', pElementText);
+btnMsg.addEventListener('click', (event) => { alert(event.target.dataset.text) });
 
-//  2. Создать функцию, которая принимает в качестве аргумента узел DOM и возвращает информацию (в виде объекта) о типе узла, об имени узла и о количестве дочерних узлов (если детей нет - 0).
+//  2. При наведении указателя мыши на "btn-msg", кнопка становится красной; когда указатель мыши покидает кнопку, она становится прежнего цвета. Цвет менять можно через добавление класса.
 
-const nodeInfo = (node) => {
-    let {type, name, childrens} = {};
-    
-    type = node.nodeType;
-    name = node.nodeName;
-    childrens = node.childNodes.length;
+btnMsg.addEventListener('mouseover', (event) => { event.target.classList.add('red') });
+btnMsg.addEventListener('mouseout', (event) => { event.target.classList.remove('red') });
 
-    return {type, name, childrens};
+//  3. При нажатии на любой узел документа показать в элементе с id=tag имя тега нажатого элемента.
+
+let strongTag = document.getElementById('tag');
+
+document.addEventListener('click', (event) => { strongTag.innerHTML = `Tag: ${event.target.tagName}` });
+
+//  4. При нажатии на кнопку btn-generate добавлять в список ul элемент списка Li с текстом Item + порядковый номер Li по списку, т.е Item 3, Item 4 и т.д 
+
+let btnGenerate = document.getElementById('btn-generate');
+
+const addElementLi = () => {
+    let elementUl = document.querySelector('ul'),
+        elementLi = document.createElement('li'),
+        numberOfLi = elementUl.children.length;
+
+    elementLi.innerHTML = `item ${numberOfLi + 1}`;
+    elementUl.insertAdjacentElement('beforeend', elementLi);
 };
 
-//  3. Получить массив, который состоит из текстового содержимого ссылок внутри списка: getTextFromUl(ul) ---> ["Link1", "Link2", "Link3"]
+btnGenerate.addEventListener('click', addElementLi);
 
-const getTextFromUl = (element) => {
-    let linkArray = [];
+//  5.  реализовать alert.
 
-    element.querySelectorAll('a').forEach( link => {
-        linkArray.push(link.textContent);
-    });
+// app.js
 
-    return linkArray;
-};
+//  6. Реализовать примитивный дропдаун. Изначально все dropdown-menu скрыты через класс .d-none. При клике на dropdown-item должен
+//  отображаться блок dropdown-menu который вложен именно в тот  dropdown-item на котором произошел клик. При повторном клике
+//  на этот же dropdown-item блок dropdown-menu должен закрыться. При клике на любой другой dropdown-item уже открытый dropdown-menu
+//  должен закрываться а на тот который кликнули открываться.
 
-//  4. В параграфе заменить все дочерние текстовые узлы на “-text-” (вложенные теги должны остаться). Конечный результат:
-//  -text-<a href="#">reprehendunt</a>-text-<mark>nemore</mark>-text-
+let dropDownItem = document.querySelectorAll('.dropdown-item'); 
+let dropDownMenu = document.querySelectorAll('.dropdown-menu');
 
-const paragraphNodeChild = document.querySelector('p').childNodes;
+dropDownItem.forEach( (element) => {        // Пробежка по всем dropDownItem
+    element.addEventListener('click',  () => {      // Добавление события к dropDownItem
+        dropDownMenu.forEach( (menuElement) => {            // на который dropDownItem не кликнули, добавить класс 'd-none' к dropDownMenu 
+            if (menuElement !== element.querySelector('.dropdown-menu')) {
+                menuElement.classList.add('d-none'); 
+            }; 
+        });
 
-for (let index = 0; index < paragraphNodeChild.length; index++) {
-    if (paragraphNodeChild[index].nodeType === 3) {
-        document.querySelector('p').childNodes[index].data = '-text-';
-    }
-}
-
-
-
-//  1. Найти в коде список ul и добавить класс “list”
-
-document.querySelector('ul').classList.add('list');
-
-//  2. Найти в коде ссылку, находящуюся после списка ul, и добавить id=link
-
-document.querySelectorAll('a').forEach( element => {
-    if (element.previousElementSibling != null && element.previousElementSibling.tagName === 'UL') {
-        element.id = 'link';
-    }
-}); //              В template.html нету ссылки которая сразу находиться после списка
-
-//  3. На li через один (начиная с самого первого) установить класс “item”
-
-document.querySelectorAll('li').forEach( (element, index) => {
-    if (index % 2 === 0) {
-        element.classList.add('item');
-    }
+        element.querySelector('.dropdown-menu').classList.toggle('d-none');     // При клике на dropDownItem отображается dropDownMenu, при повторном клике скрывается  
+    }) 
 });
-
-//  4. На все ссылки в примере установить класс “custom-link”
-
-document.querySelectorAll('a').forEach( element => {
-    element.classList.add('custom-link');
-})
-
-//  1. Не используя innerHTML, добавить в список // 4 несколько li с классом ‘new-item’ и текстом ‘item’ + номер li:
-//  <ul>
-//  <li><a href="#">Link1</a></li>
-//  ...
-//  <li class=”new-item”>item 5</li>
-//  <li class=”new-item”>item 6</li>
-//  </ul>
-//  Вручную номер li не ставить оно должно подставляться в зависимости от кол-ва лишек в списке.
-
-let liFragment = document.createDocumentFragment();
-
-for (let index = 5; index <= 8; index++) {
-    const element = document.createElement('li');
-    element.classList.add('new-item');
-    element.textContent = `item ${index}`;
-
-    liFragment.appendChild(element);
-}
-
-document.querySelector('ul').appendChild(liFragment);
-
-//  2. В каждую ссылку, которая находятся внутри списка ul  добавить по тегу strong (в каждую ссылку один - strong). 
-
-const listOfLinks = Array.from(document.querySelectorAll('a')),
-      filteredListOfLinks = listOfLinks.filter(link => link.closest('ul'));
-
-filteredListOfLinks.forEach(link => {
-    let strongElement = document.createElement('strong');
-
-    strongElement.innerHTML = link.innerHTML;
-    link.innerHTML = '';
-    link.appendChild(strongElement);
-});
-//  3. В начало документа (в начало body) добавить картинку img с атрибутами src и alt (текст придумайте сами). В src добавьте реальный url к картинке. Для создания элемента используйте метод createElement. 
-
-const imageElement = document.createElement('img');
-
-imageElement.setAttribute('src', 'https://zelenskiy.site/wp-content/uploads/2019/03/2019-03-01_071134-300x193.png');
-imageElement.setAttribute('alt', 'Ze! team');
-
-document.body.insertAdjacentElement('afterbegin', imageElement);
-
-//  4. Найти на странице элемент mark, добавить в конец содержимого текст “green” и на элемент установить класс green
-
-const markElement = document.querySelector('mark');
-
-markElement.textContent += ' green';
-markElement.classList.add('green');
-
-//  5. Отсортировать li внутри списка в обратном порядке (по тексту внутри)
-
-let listChild = Array.from(document.querySelector('ul').children),
-    fragmentUl = document.createDocumentFragment();
-
-listChild.reverse();
-listChild.forEach(element => {
-    fragmentUl.appendChild(element);
-});
-
-document.querySelector('ul').appendChild(fragmentUl);
