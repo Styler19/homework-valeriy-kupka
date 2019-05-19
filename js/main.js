@@ -136,11 +136,10 @@ const products = {
 //  “позаимствуйте” метод из предыдущего объекта.
 
 const details = {
-    price: parseFloat(products.totalCost()) / products.quantity + '$',
-    quantity: parseFloat(products.totalCost()) / parseFloat(products.price)
+    price: '231$',
+    quantity: 658,
+    totalCost: function() { return products.totalCost.call(this) }
 };
-
-            // Не понимаю смысл этой задачи, кто их вообще пишет
 
 //  3. Даны объект и функция:
 //  let sizes = {width: 5, height: 10},
@@ -151,7 +150,7 @@ const details = {
 let sizes = {width: 5, height: 10},
 getSquare = function () {return this.width * this.height};
 
-console.log('3.', { width: sizes.width, height: sizes.height, getSquare }.getSquare() );
+console.log('3.', getSquare.call(sizes) );
 
 //  4.  
 //  let element = {
@@ -170,6 +169,6 @@ let element = {
     getHeight: function () {return this.height;}
 };
 
-let getElementHeight = element.getHeight();
-console.log('4.', getElementHeight) // undefined
-            // Тут нету функции getElementHeight, что я должен изменять.
+let getElementHeight = element.getHeight.call(element);
+
+console.log('4.', getElementHeight);
