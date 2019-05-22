@@ -173,21 +173,16 @@ const lexus = new Car('lexus', 2);
 //  Строки не должны быть доступны через this, только с помощью методов.
 
 const EncoderOfString = function(string) {
-    function getString() {
+    this.getString = function () {
         return string;
     };
 
-    function crypteString() {
+    this.crypteString = function () {
         return string
             .split('')
             .reverse()
             .join('');
     };
-
-    return {
-        getString,
-        crypteString
-    }
 };
 
 const string = new EncoderOfString('Hello, Easycode');
