@@ -92,40 +92,30 @@ const calc = (function () {
 
     function setNumber(number = 0) {
         mainNumber = number;
-        mainNumber = mainNumber.toFixed(2);
-
         return this;
     };
 
     function getNumber() {
-        return mainNumber;
+        return mainNumber.toFixed(2);
     };
 
     function plus(number = 0) {
         mainNumber += number;
-        mainNumber = mainNumber.toFixed(2);
-
         return this;
     };
 
     function minus(number = 0) {
         mainNumber -= number;
-        mainNumber = mainNumber.toFixed(2);
-
         return this;
     };
 
     function multiply(number = 1) {
         mainNumber *= number;
-        mainNumber = mainNumber.toFixed(2);
-
         return this;
     };
 
     function devide(number = 1) {
         mainNumber /= number;
-        mainNumber = mainNumber.toFixed(2);
-
         return this;
     };
 
@@ -133,7 +123,6 @@ const calc = (function () {
         for (let index = 1; index < number; index++) {
             mainNumber *= mainNumber;
         };
-        mainNumber = mainNumber.toFixed(2);
 
         return this;
     };
