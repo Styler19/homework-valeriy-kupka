@@ -120,10 +120,7 @@ const calc = (function () {
     };
 
     function raise(number = 1) {
-        for (let index = 1; index < number; index++) {
-            mainNumber *= mainNumber;
-        };
-
+        mainNumber = Math.pow(mainNumber, number);
         return this;
     };
 
