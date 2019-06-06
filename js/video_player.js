@@ -38,34 +38,13 @@ class VideoPlayerBasic {
     setEvents() {
         this.video.addEventListener('click', this.toggleVideo)
         this.toggleBtn.addEventListener('click', this.toggleVideo)
-
-        this.progressContainer.addEventListener('click', (e) => this.scrub(e))
-        this.progressContainer.addEventListener('mousedown', () => this.isMouseDown = true)
-        this.progressContainer.addEventListener('mouseup', () => this.isMouseDown = false)
-        this.progressContainer.addEventListener('mousemove', (e) => {
-            this.isMouseDown && this.scrub(e)
-        })
-
+        this.methodForInput(this.progressContainer, this.scrub, 'click')
         this.video.addEventListener('timeupdate', this.handleProgress)
-
-        this.volumeInput.addEventListener('change', (event) => this.volumeChange(event))
-        this.volumeInput.addEventListener('mousedown', () => this.isMouseDown = true)
-        this.volumeInput.addEventListener('mouseup', () => this.isMouseDown = false)
-        this.volumeInput.addEventListener('mousemove', (event) => {
-            this.isMouseDown && this.volumeChange(event)
-        })
-
-        this.playbackRateInput.addEventListener('change', (event) => this.playbackRateChange(event))
-        this.playbackRateInput.addEventListener('mousedown', () => this.isMouseDown = true)
-        this.playbackRateInput.addEventListener('mouseup', () => this.isMouseDown = false)
-        this.playbackRateInput.addEventListener('mousemove', (event) => {
-            this.isMouseDown && this.playbackRateChange(event)
-        })
-        
+        this.methodForInput(this.volumeInput, this.volumeChange)
+        this.methodForInput(this.playbackRateInput, this.playbackRateChange)
         this.playerButtons.forEach(element => {
             element.addEventListener('click', this.clickRewindButton)
         })
-
         this.video.addEventListener('dblclick', this.clickRewindArea)
     }
 
@@ -75,7 +54,7 @@ class VideoPlayerBasic {
         this.video[method]()
     }
 
-    scrub(e) {
+    scrub = (e) => {
         this.video.currentTime = (e.offsetX / this.progressContainer.offsetWidth) * this.video.duration
     }
 
@@ -115,6 +94,15 @@ class VideoPlayerBasic {
 
     handleRewindArea = (value) => {
         this.video.currentTime += value
+    }
+
+    methodForInput = (element, callback, firstEvent = 'change') => {
+        element.addEventListener(`${firstEvent}`, (event) => callback(event))
+        element.addEventListener('mousedown', () => this.isMouseDown = true)
+        element.addEventListener('mouseup', () => this.isMouseDown = false)
+        element.addEventListener('mousemove', (event) => {
+        this.isMouseDown && callback(event)
+        })
     }
 
     createTemplate() {
