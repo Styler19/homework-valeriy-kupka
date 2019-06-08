@@ -15,11 +15,12 @@ const newsService = new NewsService();
 const newsUI = new NewsUI();
 const loaderUI = new LoaderUI();
 const notificationUI = new NotificationUI();
+const onSearchChangeWithDebounce = _.debounce(onSearchChange, 500)
 
 // Handlers for events -- пишем функции-обработчики, которые нужны для addEventListener
 countrySelect.addEventListener('change', onSelectChange)
 categorySelect.addEventListener('change', onSelectChange)
-searchInput.addEventListener('change', onSearchChange)
+searchInput.addEventListener('input', onSearchChangeWithDebounce)
 
 // Handlers for events -- пишем функции-обработчики, которые нужны для addEventListener
 function onSelectChange() {
@@ -40,6 +41,7 @@ function onSelectChange() {
 function onSearchChange() {
     const search = searchInput.value;
 
+    if (!searchInput.value.length) { onSelectChange() }
     if (search.length <= 3) return notificationUI.showNotification('Write in the search for more than 3 letters')
 
     loaderUI.setLoader()
