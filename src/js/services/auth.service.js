@@ -29,24 +29,11 @@ export class AuthService {
         })
     }
 
-    signup() {
+    signup(signupSettings) {
         const http = new Http()
 
         return new Promise((resolve, reject) => {
-            http.post(`${ENV.apiUrl}/public/auth/signup`, {
-                email: "cupotowotu@eyeemail.com",
-                password: "dmgame12345",
-                nickname: "dmgame",
-                first_name: "Denis",
-                last_name: "Mescheryakov",
-                phone: "0631234567",
-                gender_orientation: "male", // or "female"
-                city: "Kharkiv",
-                country: "Ukrane",
-                date_of_birth_day: 1,
-                date_of_birth_month: 3,
-                date_of_birth_year: 1989
-            })
+            http.post(`${ENV.apiUrl}/public/auth/signup`, signupSettings)
             .then((res) => {
                 if (res.error) return Promise.reject(res.message)
 
