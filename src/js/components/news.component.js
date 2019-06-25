@@ -29,7 +29,8 @@ export class NewsComponent {
             });
         }
         catch(error) {
-            this._notificationComponent.setNotification({headline: 'Get news error!', text: error.message}, 'danger', 16000)
+            // this._notificationComponent.setNotification({headline: 'Get news error!', text: error.message}, 'danger', 16000)
+            console.log(error);
         }
     }
 
