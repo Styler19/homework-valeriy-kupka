@@ -1,50 +1,50 @@
 import {
     Http
-} from './../core/http.service'
+} from './../core/http.service';
 import {
     ENV
-} from './../config/env'
+} from './../config/env';
 
 export class AuthService {
+    get token() {
+        return localStorage.getItem('sn_user_token');
+    }
+    get userId() {
+        return localStorage.getItem('sn_user_id');
+    }
+
     login(email, password) {
-        const http = new Http()
+        const http = new Http();
 
-        return new Promise((resolve, reject) => {
-            http.post(`${ENV.apiUrl}/public/auth/login`, {
-                email,
-                password
-            })
-            .then((res) => {
-                // Если нет авторизации - рареджектим промис, чтобы отстрелил catch
-                // либо сразу дернем reject(es.message) и catch нам не нужен
-                if (!res.auth) return Promise.reject(res.message)
+        return new Promise(async (resolve, reject) => {
+            try {
+                const response = await http.post(`${ENV.apiUrl}/public/auth/login`, { email, password });
 
-                localStorage.setItem('sn_user_id', res.id)
-                localStorage.setItem('sn_user_token', res.token)
-                resolve(res)
-            })
-            .catch((err) => {
-                reject(err)
-            })
-        })
+                if (!response.auth) return reject(response);
+
+                localStorage.setItem('sn_user_id', response.id);
+                localStorage.setItem('sn_user_token', response.token);
+                resolve(response);
+            }
+            catch(error) {
+                reject(error)
+            }
+        });
     }
 
-    signup(signupSettings) {
-        const http = new Http()
+    signup(data) {
+        const http = new Http();
 
-        return new Promise((resolve, reject) => {
-            http.post(`${ENV.apiUrl}/public/auth/signup`, signupSettings)
-            .then((res) => {
-                if (res.error) return Promise.reject(res.message)
-
-                resolve(res)
-            })
-            .catch((err) => {
-                reject(err)
-            })
-        })
+        return new Promise(async (resolve, reject) => {
+            try {
+                const response = await http.post(`${ENV.apiUrl}/public/auth/signup`, data)
+                
+                if (response.error) return reject(response);
+                resolve(response);
+            }
+            catch(error) {
+                reject(err);
+            }
+        });
     }
-
-    //public/auth/signup
-
 }

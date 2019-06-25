@@ -1,30 +1,38 @@
-import {
-    LoginComponent
-} from './components/login.component';
-import {
-    HomeComponent
-} from './components/home.component';
-import {
-    NotFoundComponent
-} from './components/notfound.component';
+import { LoginComponent } from './components/login.component';
 import { SignupComponent } from './components/signup.component';
+import { HomeComponent } from './components/home.component';
+import { NotFoundComponent } from './components/notfound.component';
+import { UserComponent } from './components/user.component';
+import { ActiveRoute } from './core/active.route.service';
+import { NewsComponent } from './components/news.component';
 
 const routes = {
     '/': new HomeComponent(),
     '/login': new LoginComponent(),
     '/signup': new SignupComponent(),
+    '/users/:id': new UserComponent(),
+    '/news': new NewsComponent(),
     '**': new NotFoundComponent()
 };
 
-const router = () => {
-    const url = location.hash.slice(1).toLowerCase()
-    const container = document.querySelector('app-container')
+const activeRoute = new ActiveRoute();
+const router = async () => {
+    const container = document.querySelector('app-container');
+    const request = activeRoute.parseRequestUrl()
+    const url = `${request.resource ? '/' + request.resource : '/'}${request.id ? '/:id' : ''}`
 
-    const component = routes[url] || routes['**']
+    const component = routes[url] || routes['**'];
 
-    container.innerHTML = component.render()
-    component.afterRender && component.afterRender()
+    const {
+        beforeRender,
+        render,
+        afterRender
+    } = component;
+
+    beforeRender && await beforeRender();
+    container.innerHTML = render();
+    afterRender && await afterRender();
 }
 
-window.addEventListener('load', router)
-window.addEventListener('hashchange', router)
+window.addEventListener('load', router);
+window.addEventListener('hashchange', router);
