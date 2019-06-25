@@ -23,20 +23,18 @@ export class NewsComponent {
         this._notificationComponent.setContainer(document.querySelector('div.notification-container'));
 
         try {
-            this._news = await this._newsService.getNews(this._authUserToken);
-            this._images = this._news.news.map((element) => {
-                return element.pictures[0].url
-            });
+            const { news } = await this._newsService.getNews(this._authUserToken);
+            this._newsList = news.map(this.getTemplate);
         }
-        catch(error) {
+        catch (error) {
             // this._notificationComponent.setNotification({headline: 'Get news error!', text: error.message}, 'danger', 16000)
             console.log(error);
         }
     }
 
     render() {
-        if (!this._images) return;
-        
+        if (!this._newsList) return;
+
         return `
         <style>
             ${this.style()}
@@ -44,23 +42,18 @@ export class NewsComponent {
         <div class="news-container">
             <div class="container">
                 <div class="row">
-                    <div class="col-sm-2">
-                        <img class="news-img" src="${this._images[0]}">
-                    </div>
-                    <div class="col-sm-2">
-                        <img class="news-img" src="${this._images[1]}">
-                    </div>
-                    <div class="col-sm-2">
-                        <img class="news-img" src="${this._images[2]}">
-                    </div>
-                    <div class="col-sm-2">
-                        <img class="news-img" src="${this._images[3]}">
-                    </div>
-                    <div class="col-sm-2">
-                        <img class="news-img" src="${this._images[4]}">
-                    </div>
+                    ${this._newsList.join('')}
                 </div>
             </div>
+        </div>
+        `
+    }
+
+
+    getTemplate( { pictures: [picture] } ) {
+        return `
+        <div class="col-sm-2">
+            <img class="news-img" src="${picture.url}">
         </div>
         `
     }
@@ -68,12 +61,11 @@ export class NewsComponent {
     style() {
         return `
         .news-img {
-            max-width: 100%
+        max-width: 100%
         }
-
         .news-container {
-            margin-top: 15px
+        margin-top: 15px
         }
-        `
-    }
+`
+}
 }
