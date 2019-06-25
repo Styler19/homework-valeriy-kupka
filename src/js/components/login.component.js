@@ -31,7 +31,7 @@ export class LoginComponent {
                         <input type="email" class="form-control form-control-sm" id="email" placeholder="name@example.com" required data-pattern="^\S+@[a-z]+\.[a-z]+$">
                         <input type="password" class="form-control form-control-sm mt-3" id="password" placeholder="password" required data-pattern="\S+">
                         <div class="d-flex mt-5">
-                            <button type="submit" class="btn btn-primary btn-sm">Login</button>
+                            <button type="submit" class="btn btn-primary btn-sm" id="submit_button">Login</button>
                             <div id="loader-container" class="ml-auto"></div>
                         </div>
                     </div>
@@ -58,15 +58,18 @@ export class LoginComponent {
             if ( e.target.elements['password'].value.length < 8 )
                 return this._notificationComponent.setNotification({headline: 'Password must be min 8 char length!', text: 'Please fill in the fields correctly.'}, 'danger');
 
+            e.target.elements['submit_button'].disabled = true;                    // Disable button
             this._loaderComponent.setLoader();
 
             try {
                 const response = await this._authService.login(email, password)
                 this._loaderComponent.removeLoader()
+                e.target.elements['submit_button'].disabled = false;
                 this._routing.navigate(`/users/${response.id}`)
             }
-            catch (error) {
+            catch(error) {
                 this._loaderComponent.removeLoader()
+                e.target.elements['submit_button'].disabled = false;
                 this._notificationComponent.setNotification({headline: 'Login error!', text: error.message}, 'danger', 16000);
             }
         });
