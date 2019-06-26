@@ -1,52 +1,50 @@
-// это корневой файл, который просто управляет тем куда пойти и что сделать
-// при срабатывании того или иного события
+//  1. Создать функцию, которая возвращает промис.  Функция принимает два аргумента - время,
+//  через которое промис должен выполниться, и значение, с которым промис будет выполнен. 
+//  
+//  function promiseCreator(...) {...}
+//  const prom = promiseCreator(500, 'Ok!');
+//  prom.then(console.log);
+//  // Ok!
 
-// NewsService, NewsUI, LoaderUI классы оьявлены глобально в файлай, которые подключены выше этого
-// и они нам тут теперь доступны для того, что бы собственно "посылать" и "делать"
-
-// инициализация всех необходимый конструкторов
-const newsService = new NewsService()
-const newsUI = new NewsUI()
-const loaderUI = new LoaderUI('.news-wrap .row')
-const notificationUI = new NotificationUI()
-
-// UI Elements
-const form = document.forms['newsControlForm'];
-const countrySelect = form['country'];
-const categorySelect = form['category'];
-const searchInput = form['search'];
-
-// Event listeners -- собираем все addEventListener в обну стопку, чтобы потом не искать их по коду
-countrySelect.addEventListener('change', onSelectChange)
-categorySelect.addEventListener('change', onSelectChange)
-searchInput.addEventListener('change', onSearchChange)
-
-// Handlers for events -- пишем функции-обработчики, которые нужны для addEventListener
-function onSelectChange() {
-    const country = countrySelect.value;
-    const category = categorySelect.value;
-
-    if (!country || !category) return notificationUI.setNotification('Choose the category and country')
-
-    loaderUI.setLoader()
-    newsService.getNewsByCountryAndCatigory(({
-        articles
-    }) => {
-        loaderUI.removeLoader()
-        newsUI.addNewsToView(articles)
-    }, country, category)
+function promiseCreator(time, value) {
+    return new Promise(resolve => {
+        setTimeout(() => {
+            resolve(value)
+        }, time)
+    })
 }
 
-function onSearchChange() {
-    const search = searchInput.value;
+const prom = promiseCreator(500, 'Ok!');
+prom.then(console.log); // Ok!
 
-    if (search.length <= 3) return notificationUI.setNotification('Write in the search for more than 3 letters')
+//  2. Создать класс, который производит экземпляр со следующими свойствами:
+//  - promise - промис, который создается во время запуска конструктора;
+//  - reject - метод, при выполнении которого promise реджектится;
+//  - resolve - метод, при выполнении которого promise резолвится.
+//  
+//  class Prom {...}
+//  const inst = new Prom();
+//  inst.promise.then(data => console.log(data));
+//  setTimeout(() => inst.resolve('test'), 5000)
+//  →  test
 
-    loaderUI.setLoader()
-    newsService.getNewsBySearch(({
-        articles
-    }) => {
-        loaderUI.removeLoader()
-        newsUI.addNewsToView(articles)
-    }, search)
+class Prom {
+    constructor() {
+        this.promise = new Promise((resolve, reject) => {
+            this.then = resolve;
+            this.catch = reject;
+        });
+    }
+
+    resolve(value) {
+        this.then(value)
+    }
+
+    reject(value) {
+        this.catch(value)
+    }
 }
+
+const inst = new Prom();
+inst.promise.then(data => console.log(data));
+setTimeout(() => inst.resolve('test'), 5000)    // test
