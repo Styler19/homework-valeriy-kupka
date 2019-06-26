@@ -1,20 +1,31 @@
 export class Http {
-    post(url, data) {
-        return new Promise((resolve, reject) => {
-            fetch(url, {
+    post(url, data, options) {
+        return new Promise(async (resolve, reject) => {
+            try {
+                const response = await fetch(url, {
                     method: 'POST',
                     body: JSON.stringify(data),
                     headers: {
                         'Content-type': 'application/json'
                     }
-                })
-                .then((response) => {
-                    console.log(response)
-
-                    return response.json()
-                })
-                .then((data) => resolve(data))
-                .catch((err) => reject(err));
+                });
+                resolve(response.json());
+            }
+            catch(error) {
+                reject(error);
+            }
+        });
+    }
+    get(url, options = {}) {
+        return new Promise(async (resolve, reject) => {
+            try {
+                const response = await fetch(url, options)
+                resolve(response.json());
+            }
+            catch(error) {
+                reject(error);
+            }
         });
     }
 }
+

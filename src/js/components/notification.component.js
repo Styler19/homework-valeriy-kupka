@@ -3,7 +3,7 @@ export class NotificationComponent {
         this.container = container;
     }
 
-    setNotification(message, type, time = '4000') {
+    setNotification(message, type, time = '4000') {                 // Alert types: success, info, warning, danger
         const notificationId = this.getDataId();
 
         if (this.container.querySelectorAll('div[data-id]').length >= 3) return;
@@ -29,8 +29,6 @@ export class NotificationComponent {
 
     removeNotification(notificationId) {
         const notification = document.querySelector(`[data-id="${notificationId}"]`);
-        this.container.removeChild(notification);
+        if (notification) this.container.removeChild(notification);
     }
 }
-
-// Alert types: success, info, warning, danger
