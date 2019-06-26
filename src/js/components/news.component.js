@@ -1,71 +1,44 @@
-import { NewsService } from './../services/news.service';
-import { AuthService } from './../services/auth.service';
-import { NotificationComponent } from './notification.component'
-import { Routing } from './../core/routing.service';
+import { NewsService, AuthService } from './../services'
 
 export class NewsComponent {
-    constructor() {
-        this._newsService = new NewsService();
-        this._authService = new AuthService();
-        this._routingService = new Routing();
-        this._notificationComponent = new NotificationComponent();
+  constructor() {
+    this._newsService = new NewsService()
+    this._authService = new AuthService()
 
-        this.beforeRender = this.beforeRender.bind(this);
-        this.render = this.render.bind(this);
-        this.style = this.style.bind(this);
+    this.beforeRender = this.beforeRender.bind(this)
+    this.render = this.render.bind(this)
+  }
 
-        this._authUserToken = this._authService.token;
-        this._news = {};
+  async beforeRender() {
+    const {
+      token
+    } = this._authService
+    const {
+      news
+    } = await this._newsService.getNews(token)
+
+    this._newsList = news.map(this._newTemplate)
+  }
+
+  render() {
+    return `
+      <div>${this._newsList.join('')}</div>
+    `
+  }
+
+  _newTemplate({
+    pictures: [picture],
+    owner: {
+      full_name
     }
-
-    async beforeRender() {
-        if (!this._authUserToken) return this._routingService.navigate('/login');
-        this._notificationComponent.setContainer(document.querySelector('div.notification-container'));
-
-        try {
-            const { news } = await this._newsService.getNews(this._authUserToken);
-            this._newsList = news.map(this.getTemplate);
-        }
-        catch (error) {
-            // this._notificationComponent.setNotification({headline: 'Get news error!', text: error.message}, 'danger', 16000)
-            console.log(error);
-        }
-    }
-
-    render() {
-        if (!this._newsList) return;
-
-        return `
-        <style>
-            ${this.style()}
-        </style>
-        <div class="news-container">
-            <div class="container">
-                <div class="row">
-                    ${this._newsList.join('')}
-                </div>
-            </div>
-        </div>
-        `
-    }
-
-
-    getTemplate( { pictures: [picture] } ) {
-        return `
-        <div class="col-sm-2">
-            <img class="news-img" src="${picture.url}">
-        </div>
-        `
-    }
-
-    style() {
-        return `
-        .news-img {
-        max-width: 100%
-        }
-        .news-container {
-        margin-top: 15px
-        }
-`
-}
+  }) {
+    return `
+    <div class="card" style="width: 18rem; margin: 0 0 10px 10px;">
+      <img src="${picture.url}" class="card-img-top" alt="...">
+      <div class="card-body">
+        <p class="card-text">${full_name}</p>
+      </div>
+    </div>
+    `
+  }
 }

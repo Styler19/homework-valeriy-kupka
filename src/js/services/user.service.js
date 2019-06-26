@@ -1,4 +1,4 @@
-import { Http } from './../core/http.service';
+import { Http } from './../core';
 import { ENV } from './../config/env';
 
 export class UserService {
@@ -8,13 +8,17 @@ export class UserService {
         return new Promise(async (resolve, reject) => {
             try {
                 const response = await http.get(`${ENV.apiUrl}/public/users/get-info/${id}`)
-                console.log(response);
                 resolve(response);
             }
-            catch(error) {
-                console.log(error);
+            catch(error){
                 reject(error);
-            }
+            };
         });
+    }
+
+    async getUserImages(id) {
+        const http = new Http();
+
+        return await http.get(`${ENV.apiUrl}/public/users/my-images/${id}`)
     }
 }

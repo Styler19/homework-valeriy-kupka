@@ -1,12 +1,14 @@
 export class LoaderComponent {
-    setContainer(container) {
+    setContainer(container, customStyle) {
         this.container = container;
+        this._customStyle = customStyle;
     }
 
     setLoader() {
         this.container.innerHTML = `
         <style>
             ${this.style()}
+            ${this._customStyle}
         </style>
         <div class="lds-ellipsis"><div></div><div></div><div></div><div></div></div>
         `;

@@ -1,4 +1,4 @@
-import { Http } from './../core/http.service';
+import { Http } from './../core';
 import { ENV } from './../config/env';
 
 export class NewsService {

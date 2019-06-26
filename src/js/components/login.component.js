@@ -1,5 +1,5 @@
-import { AuthService } from './../services/auth.service';
-import { Routing } from './../core/routing.service';
+import { AuthService } from './../services';
+import { Routing } from './../core';
 import { NotificationComponent } from './notification.component';
 import { LoaderComponent } from './loader.component';
 
