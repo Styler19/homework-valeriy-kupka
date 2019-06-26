@@ -1,108 +1,197 @@
-// Task manager
-// 1. создать задачу
-//      а. обработка формы
-//          - проверить данные перед добавлением (валидация)
-//      б. добавить задачу в массив
-//      в. добавить данные в таблицу
-//      г. очистить форму
-// 2. удалить задачу
-//      а. подтверждение
-//      б. удаление данных из таблицы
-//      в. удаление данных из массива 
-// 3. редактировать задачу 
-//      а. взять данные из массива
-//      б. поместить в форму 
-//      в. обработать форму на редактирование
-//          - валидация
-//      г. обновить данные в массиве
-//      д. обновить данные в таблице
-//      е. офистить форму
+// // // 
 
-// task = {
-//     id: {
-//         type: 'String',
-//         required: true
-//     },
-//     title: {
-//         type: 'String',
-//         required: true
-//     },
-//     text: {
-//         type: 'String',
-//         required: true
+
+// for (let index = 0; index < 3; index++) {
+//     // index
+//     setTimeout(() => {
+//         console.log(index);
+//     }, 1000);
+// }
+
+// function User(name, age) {
+//     this.name = name
+//     this.age = age
+//     this.getName = function () {
+//         return this.name
+//     }
+
+//     this.getAge = function () {
+//         return this.age
+//     }
+
+//     this.getFullInfo = function () {
+//         return `User Name - ${this.userName}`
 //     }
 // }
 
+// function OtherUser() {
+//     this.userName = 'Other user'
+// }
 
-let storage = {
-    todos: []
+// OtherUser.prototype = new User('Pasha', 18)
+
+// const otherUser = new OtherUser()
+
+// const pasha = new User('Pasha', 18);
+// const alina = new User('Alina', 30)
+
+// console.log('Pasha - ', pasha)
+// console.log('Alina - ', alina)
+
+// // // prototype
+// function Car(settings) {
+//     const {
+//         name,
+//         model,
+//         totalMiles = 0,
+//         totalFuelValue = 10
+//     } = settings
+
+//     this.name = name;
+//     this.model = model;
+//     this.totalMiles = totalMiles;
+//     this.totalFuelValue = totalFuelValue;
+// }
+
+// Car.prototype.drive = function () {
+//     this.totalMiles++;
+//     this.totalFuelValue--;
+// };
+
+// Car.prototype.refuel = function () {
+//     this.totalFuelValue--;
+// }
+
+// const myCar = new Car({
+//     name: 'BMW',
+//     model: 'M10'
+// });
+
+// // myCar.drive();
+// console.log('BMW M10', myCar);
+
+// const herCar = new Car({
+//     name: 'Daewoo',
+//     model: 'Matiz',
+//     totalMiles: 9999999
+// });
+// console.log('Daewoo Matiz', herCar);
+
+
+
+
+
+
+
+
+
+// // ES6
+// class Traktor {
+//     constructor(name, key) {
+//         this.name = name;
+//         this.__myVal = 0;
+//         this[key] = () => {
+//             console.log('myMethod');
+//         }
+//     }
+
+//     get myVal() {
+//         return this.__myVal;
+//     }
+
+//     set myVal(newValue) {
+//         if (typeof newValue !== 'number') return console.error('Ууууу Error');
+
+//         this.__myVal = newValue;
+//     }
+
+
+
+//     singSong() {
+//         // Traktor.getDate();
+//         console.log('MuMuMuMu....');
+//     }
+
+//     static getDate() {
+//         return new Date();
+//     }
+// }
+
+// const myTraktor = new Traktor('Bob', 'method');
+
+// console.log(Traktor.getDate());
+
+// AJAX
+// http://easycode.school/courses?limit=10
+// GET, POST, PUT, DELETE
+// 200, 300, 400, 500 - ответы от сервера
+
+const url = 'https://jsonplaceholder.typicode.com';
+
+// get TODOS
+// const xhr = new XMLHttpRequest();
+
+// xhr.open('GET', `${url}/todos`);
+// xhr.send();
+
+// xhr.addEventListener('load', () => {
+//     console.log(xhr.responseText);
+// });
+
+
+// // get USERS
+// const xhr2 = new XMLHttpRequest();
+
+// xhr2.open('GET', `${url}/users`);
+// xhr2.send();
+
+// xhr2.addEventListener('load', () => {
+//     console.log(xhr2.responseText);
+// });
+
+// TODO: write the CustomHttp class
+class CustomHttp {
+    get(url, callback) {
+        const xhr = new XMLHttpRequest();
+        xhr.open('GET', url);
+        xhr.send();
+        xhr.addEventListener('load', () => {
+            const resp = JSON.parse(xhr.responseText)
+            callback(resp);
+        });
+    }
+    post(url, data, callback) {
+        const xhr = new XMLHttpRequest();
+        xhr.open('POST', url);
+        xhr.setRequestHeader('Content-type', 'application/json')
+        xhr.send(data);
+        xhr.addEventListener('load', () => {
+            const resp = JSON.parse(xhr.responseText)
+            callback(resp);
+        });
+    }
+}
+
+
+
+const http = new CustomHttp();
+
+// http.get('https://jsonplaceholder.typicode.com/todos', (response) => {
+//     console.log('TODOS --- ', response);
+// });
+
+// http.get('https://jsonplaceholder.typicode.com/users', (response) => {
+//     console.log('USERS ---', response);
+// });
+
+const data = {
+    body: 'Some body',
+    userId: 1,
+    title: 'Some title'
 };
-
-function generateId() {
-    const words = '0123456789qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM';
-    let id = '';
-
-    for (let char of words) {
-        let index = Math.floor(Math.random() * words.length);
-        id += words[index];
-    }
-
-    return id;
-}
-
-function addNewTodoToStorage(title, text) {
-    if (!title) return console.log('Введите заголовок задачи');
-    if (!text) return console.log('Введите текст задачи');
-
-    const newTask = {
-        title,
-        text,
-        id: generateId()
-    };
-
-    storage.todos.push(newTask);
-
-    return storage.todos;
-}
-
-addNewTodoToStorage('My title 1', 'My text 1');
-addNewTodoToStorage('My title 2', 'My text 2');
-addNewTodoToStorage('My title 3', 'My text 3');
-addNewTodoToStorage('My title 4', 'My text 4');
-
-function deleteTodoFromStorage(id) {
-    if (!id) return console.log('Передайте id задачи');
-
-    const taskIndex = storage.todos.findIndex((task) => task.id === id)
-
-    if (taskIndex === -1) return console.log('id несуществуе');
-
-    const removedTask = storage.todos.splice(taskIndex, 1);
-
-    return removedTask;
-}
-
-function editTaskStorage(id, title, text) {
-    if (!id) return 'Введите id задачи';
-    if (!title) return 'Введите заголовок задачи';
-    if (!text) return 'Введите текст задачи';
-
-    for (todo of storage.todos) {
-        if (todo.id === id) {
-            todo.title = title;
-            todo.text = text;
-            return storage.todos;
-        }
-    }
-
-    return 'Задача не найдена!';
-}
-
-editTaskStorage('tDhKROE6FS2JUfiwmvxFGe1fgT1qSFSwlaai0aJHoFOveI6L4VPaVzz4N6wPn4', 'new title', 'new text');
-
-// эти строки лучше выполнять в консоли браузера, когда вы сможете 
-// из массива storage.todos взять уникальный id тасочки 
-// editTaskStorage('some id', 'new title', 'new text')
-// console.log(storage.todos)
-
-// или можете практиковаться на storage.todos[0].id :)
+http.post('https://jsonplaceholder.typicode.com/todos', JSON.stringify(data), (response) => {
+    console.log(response);
+    http.get('https://jsonplaceholder.typicode.com/todos', (response) => {
+        console.log('TODOS --- ', response);
+    });
+});
