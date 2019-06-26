@@ -1,70 +1,79 @@
-//  Зная структуру html, с помощью изученных
-//  методов получить (в консоль):
-//  1. head
+//  If else. Задачи.
 
-console.log('1.', document.head);
+//  1. Если переменная равна “hidden”, присвоить ей значение “visible”, иначе - “hidden”.
 
-//  2. body
+let someLet1 = 'hidden';
 
-console.log('2.', document.body);
-
-//  3. все дочерние элементы body и вывести их в
-//  консоль.
-
-console.log('3.', document.body.children);
-
-//  4. первый div и все его дочерние узлы
-//      а) вывести все дочерние узлы в консоль
-
-console.log('4(a).', document.body.firstElementChild.children);
-
-//      б) вывести в консоль все дочерние узлы,
-//      кроме первого и последнего
-
-const elementChild = document.body.firstElementChild.children;
-let arrayElementChild = [];
-
-for (let i = 1; i < elementChild.length - 1; i++) {
-    arrayElementChild.push(elementChild[i]);
+if(someLet1 = 'hidden'){
+    someLet1 = 'visible';
+} else {
+    someLet1 = 'hidden';
 }
 
-console.log('4(b).', arrayElementChild);
+//  2. Используя if, записать условие:
+//      a. если переменная равна нулю, присвоить ей 1;
 
-//  1. Создать функцию, которая принимает два элемента. Функция проверяет, является ли первый элемент родителем для второго:
-//  isParent(parent, child);
-//  isParent(document.body.children[0], document.querySelector('mark'));
-//  // true так как первый див является родительским элементом для mark
-//  isParent(document.querySelector('ul'), document.querySelector('mark'));
-//  // false так ul НЕ является родительским элементом для mark
+let someLet2A = 0;
 
-const isParent = (parent, child) => {
-
-    for (let index = child; index != document.body; index = index.parentElement) {
-        if (index === parent) {
-            return true;
-        }
-    }
-    
-    return false;
+if(someLet2A === 0){
+    someLet2A = 1;
 }
 
-//  2. Получить список всех ссылок, которые не находятся внутри списка ul
+//      b. если меньше нуля - строку “less then zero”;
 
-const  arrayOfLinks = Array.from(document.querySelectorAll('a'));
-let filteredLinks = arrayOfLinks.filter(link => !link.closest('ul'));
+let someLet2B = -1;
 
-console.log('2.', filteredLinks);
+if(someLet2B < 0){
+    someLet2B = 'less then zero';
+}
 
-//  3. Найти элемент, который находится перед и после списка ul
+//      c. если больше нуля - используя оператор “присвоение”, переменную умножить на 10 (использовать краткую запись).
 
-console.log('3.', document.querySelector('ul').previousElementSibling, document.querySelector('ul').nextElementSibling);
+someLet2C = 1;
 
-//  4. Посчитать количество элементов li в списке
- 
-console.log('4.', document.querySelectorAll('ul li').length);
+if(someLet2C > 0){
+    someLet2C = someLet2C * 10;
+}
 
-//  5. В коде с занятия написать функцию по редактированию задачи. 
+//  3. Дан объект let car = { name: 'Lexus', age: 10, create: 2008, needRepair: false }. Написать условие если возраст машины больше 5 лет то нужно вывести в консоль сообщение 'Need Repair' и свойство needRepair в объекте car изменить на true; иначе изменить на false.
 
-// app.js
+let car = { name: 'Lexus', age: 10, create: 2008, needRepair: false };
 
-//  6. Подумать и улучшить функцию generateId();
+if(car.age > 5){
+    car.needRepair = true;
+    console.log('Need Repair');
+} else {
+    car.needRepair = false;
+}
+
+
+//  4. Дан объект let item = { name: 'Intel core i7', price: '100$', discount: '15%' }. Написать условие если у item есть поле discount и там есть значение то в объекте item создать поле priceWithDiscount и записать туда цену с учетом скидки и вывести ее в консоль, обратите внимание что поля discount и price это строки и вам из них нужно получить числа чтобы выполнить расчет. иначе если поля discount нет то вывести просто поле price в консоль.
+
+let item = { name: 'Intel core i7', price: '100$', discount: '15%' };
+
+if(item.hasOwnProperty('discount') === true && item.discount !== ""){
+    item.priceWithDiscount = parseInt(item.price) / 100 * (100 - parseInt(item.discount)); 
+    console.log(item.priceWithDiscount + '$');
+} else {
+    console.log(item.price);
+}
+
+//  5. Дан следующий код:
+//      let product = {
+//      name: “Яблоко”,
+//      price: “10$”
+//      };
+//      let min = 10; // минимальная цена
+//      let max = 20; // максимальная цена
+//Написать условие если цена товара больше или равна минимальной цене и меньше или равна максимальной цене то вывести в консоль название этого товара, иначе вывести в консоль что товаров не найдено.
+
+let product = { name: 'Яблоко', price: '10$' };
+
+let min = 10;
+let max = 20;
+
+if(parseInt(product.price) >= min && parseInt(product.price) <= max){
+    alert(product.name);
+} else {
+    alert('Товаров не найдено');
+}
