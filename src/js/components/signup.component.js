@@ -1,6 +1,6 @@
-import { AuthService } from './../services/auth.service';
+import { AuthService } from './../services';
 import { NotificationComponent } from './notification.component'
-import { Routing } from './../core/routing.service';
+import { Routing } from './../core';
 import { LoaderComponent } from './loader.component';
 
 export class SignupComponent {

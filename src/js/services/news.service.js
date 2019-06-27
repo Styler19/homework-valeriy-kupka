@@ -1,4 +1,4 @@
-import { Http } from './../core/http.service';
+import { Http } from './../core';
 import { ENV } from './../config/env';
 
 export class NewsService {
@@ -12,7 +12,6 @@ export class NewsService {
                         'x-access-token': userToken
                     }
                 })
-                console.log(response);
                 resolve(response);
             }
             catch(error) {

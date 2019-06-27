@@ -1,9 +1,5 @@
-import {
-    Http
-} from './../core/http.service';
-import {
-    ENV
-} from './../config/env';
+import { Http } from './../core';
+import { ENV } from './../config/env';
 
 export class AuthService {
     get token() {
@@ -46,5 +42,10 @@ export class AuthService {
                 reject(err);
             }
         });
+    }
+
+    logout() {
+        localStorage.removeItem('sn_user_id');
+        localStorage.removeItem('sn_user_token');
     }
 }

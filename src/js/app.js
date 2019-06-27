@@ -1,27 +1,80 @@
-import { LoginComponent } from './components/login.component';
-import { SignupComponent } from './components/signup.component';
-import { HomeComponent } from './components/home.component';
-import { NotFoundComponent } from './components/notfound.component';
-import { UserComponent } from './components/user.component';
-import { ActiveRoute } from './core/active.route.service';
-import { NewsComponent } from './components/news.component';
+import {
+    LoginComponent,
+    SignupComponent,
+    HomeComponent,
+    NotFoundComponent,
+    UserComponent,
+    NewsComponent,
+    NavbarComponent,
+    WinnersComponent
+} from './components';
 
-const routes = {
-    '/': new HomeComponent(),
-    '/login': new LoginComponent(),
-    '/signup': new SignupComponent(),
-    '/users/:id': new UserComponent(),
-    '/news': new NewsComponent(),
-    '**': new NotFoundComponent()
-};
+import { ActiveRoute } from './core';
+
+import {
+    AuthGuard,
+    PaymentGuard
+} from './guard'
 
 const activeRoute = new ActiveRoute();
+const authGuard = new AuthGuard()
+const paymentGuard = new PaymentGuard()
+
+const routes = {
+    '/': {
+        component: new HomeComponent(),
+        guard: [authGuard]
+    },
+    '/login': {
+        component: new LoginComponent()
+    },
+    '/signup': {
+        component: new SignupComponent()
+    },
+    '/news': {
+        component: new NewsComponent(),
+        guard: [authGuard, paymentGuard]
+    },
+    '/users/:id': {
+        component: new UserComponent(),
+        guard: [authGuard]
+    },
+    '/winners' : {
+        component: new WinnersComponent(),
+        guard: [authGuard]
+    },
+    '**': {
+        component: new NotFoundComponent()
+    }
+};
+
+
 const router = async () => {
+    const header = document.querySelector('app-header')
     const container = document.querySelector('app-container');
+
     const request = activeRoute.parseRequestUrl()
     const url = `${request.resource ? '/' + request.resource : '/'}${request.id ? '/:id' : ''}`
 
-    const component = routes[url] || routes['**'];
+    const route = routes[url] || routes['**']
+
+    const {
+        component,
+        guard
+    } = route
+
+    if (guard && guard.some(item => !item.canActivate())) {
+        return;
+    }
+
+    if (header) {
+        const {
+            render,
+            afterRender
+        } = new NavbarComponent()
+        header.innerHTML = render();
+        afterRender()
+    }
 
     const {
         beforeRender,

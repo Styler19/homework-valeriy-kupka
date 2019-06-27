@@ -1,7 +1,6 @@
-import { AuthService } from './../services/auth.service';
-import { Routing } from './../core/routing.service';
-import { NotificationComponent } from './notification.component';
-import { LoaderComponent } from './loader.component';
+import { AuthService } from './../services';
+import { Routing } from './../core';
+import { NotificationComponent, LoaderComponent } from './';
 
 export class LoginComponent {
     constructor() {
@@ -22,25 +21,25 @@ export class LoginComponent {
 
     render() {
         return `
-        <div class="auth-wrap d-flex mt-5">
-            <div class="auth-form col col-6 mx-auto my-auto">
-                <h3>Login to Social.</h3>
-                <p class="text-secondary">Enter your e-mail address & password to login to your Social account.</p>
-                <form name="loginForm" novalidate>
-                    <div class="form-group">
-                        <input type="email" class="form-control form-control-sm" id="email" placeholder="name@example.com" required data-pattern="^\S+@[a-z]+\.[a-z]+$">
-                        <input type="password" class="form-control form-control-sm mt-3" id="password" placeholder="password" required data-pattern="\S+">
-                        <div class="d-flex mt-5">
-                            <button type="submit" class="btn btn-primary btn-sm" id="submit_button">Login</button>
-                            <div id="loader-container" class="ml-auto"></div>
+            <div class="auth-wrap d-flex mt-5">
+                <div class="auth-form col col-6 mx-auto my-auto">
+                    <h3>Login to Social.</h3>
+                    <p class="text-secondary">Enter your e-mail address & password to login to your Social account.</p>
+                    <form name="loginForm" novalidate>
+                        <div class="form-group">
+                            <input type="email" class="form-control form-control-sm" id="email" placeholder="name@example.com" required data-pattern="^\S+@[a-z]+\.[a-z]+$">
+                            <input type="password" class="form-control form-control-sm mt-3" id="password" placeholder="password" required data-pattern="\S+">
+                            <div class="d-flex mt-5">
+                                <button type="submit" class="btn btn-primary btn-sm" id="submit_button">Login</button>
+                                <div id="loader-container" class="ml-auto"></div>
+                            </div>
                         </div>
-                    </div>
-                </form>
+                    </form>
+                </div>
+                <div class="auth-bg col col-6">
+                    <div class="notification-container"></div>
+                </div>
             </div>
-            <div class="auth-bg col col-6">
-                <div class="notification-container"></div>
-            </div>
-        </div>
         `;
     }
 
@@ -58,7 +57,7 @@ export class LoginComponent {
             if ( e.target.elements['password'].value.length < 8 )
                 return this._notificationComponent.setNotification({headline: 'Password must be min 8 char length!', text: 'Please fill in the fields correctly.'}, 'danger');
 
-            e.target.elements['submit_button'].disabled = true;                    // Disable button
+            e.target.elements['submit_button'].disabled = true;
             this._loaderComponent.setLoader();
 
             try {
