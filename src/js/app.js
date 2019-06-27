@@ -40,7 +40,8 @@ const routes = {
         guard: [authGuard]
     },
     '/winners' : {
-        component: new WinnersComponent()
+        component: new WinnersComponent(),
+        guard: [authGuard]
     },
     '**': {
         component: new NotFoundComponent()

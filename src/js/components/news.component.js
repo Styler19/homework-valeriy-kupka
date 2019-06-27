@@ -1,28 +1,42 @@
 import { NewsService, AuthService } from './../services'
+import { LoaderComponent } from './'
 
 export class NewsComponent {
   constructor() {
     this._newsService = new NewsService()
     this._authService = new AuthService()
+    this._loaderComponent = new LoaderComponent();
 
     this.beforeRender = this.beforeRender.bind(this)
     this.render = this.render.bind(this)
+    this.style = this.style.bind(this)
   }
 
   async beforeRender() {
-    const {
-      token
-    } = this._authService
-    const {
-      news
-    } = await this._newsService.getNews(token)
+    this._loaderComponent.setContainer(document.querySelector('app-container'), {style: '.lds-ellipsis {top: 30px;left: 50%;}'});
+    this._loaderComponent.setLoader();
 
-    this._newsList = news.map(this._newTemplate)
+    try {
+      const { token } = this._authService
+      const { news } = await this._newsService.getNews(token)
+      this._newsList = news.map(this._newTemplate)
+    }
+    catch(error) {
+      this._loaderComponent.removeLoader()
+      console.log(error);
+    }
   }
 
   render() {
     return `
-      <div>${this._newsList.join('')}</div>
+      <style>
+        ${this.style()}
+      </style>
+      <div class="news-container">
+        <div class="d-flex justify-content-center">
+          ${this._newsList.join('')}
+        </div>
+      </div>
     `
   }
 
@@ -33,12 +47,24 @@ export class NewsComponent {
     }
   }) {
     return `
-    <div class="card" style="width: 18rem; margin: 0 0 10px 10px;">
-      <img src="${picture.url}" class="card-img-top" alt="...">
-      <div class="card-body">
-        <p class="card-text">${full_name}</p>
+      <div class="card">
+        <img src="${picture.url}" class="card-img-top" alt="news-image">
+        <div class="card-body">
+          <p class="card-text">${full_name}</p>
+        </div>
       </div>
-    </div>
+    `
+  }
+
+  style() {
+    return `
+      .card {
+        width: 18rem;
+        margin: 0 10px 0 10px;
+      }
+      .card-img-top {
+        max-width: 100%;
+      }
     `
   }
 }

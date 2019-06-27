@@ -7,12 +7,11 @@ export class NewsService {
 
         return new Promise(async (resolve, reject) => {
             try {
-                const response = await http.get(`${ENV.apiUrl}/public/news`, {
+                const response = await http.get(`${ENV.apiUrl}/public/news?part=1&limit=15`, {
                     headers: {
                         'x-access-token': userToken
                     }
                 })
-                console.log(response);
                 resolve(response);
             }
             catch(error) {

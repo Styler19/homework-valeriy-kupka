@@ -1,11 +1,13 @@
 import { ActiveRoute } from '../core';
 import { UserService, AuthService } from '../services';
+import { LoaderComponent } from './'
 
 export class UserComponent {
   constructor() {
     this._activeRoute = new ActiveRoute();
     this._authService = new AuthService();
     this._userService = new UserService();
+    this._loaderComponent = new LoaderComponent();
 
     this.beforeRender = this.beforeRender.bind(this)
     this.render = this.render.bind(this)
@@ -15,15 +17,20 @@ export class UserComponent {
   }
 
   async beforeRender() {
-    const {
-      userId
-    } = this._authService
-    this._user = await this._userService.getUser(userId)
-    const {
-      images
-    } = await this._userService.getUserImages(userId)
+    this._loaderComponent.setContainer(document.querySelector('app-container'), {style: '.lds-ellipsis {top: 30px;left: 50%;}'});
+    this._loaderComponent.setLoader();
 
-    this._imagesTemplate = images.reduce((init, item) => init += this._singleImageTemplate(item), '')
+    try {
+      const { userId } = this._authService
+      this._user = await this._userService.getUser(userId)
+      const { images } = await this._userService.getUserImages(userId)
+      this._loaderComponent.removeLoader()
+      this._imagesTemplate = images.reduce((init, item) => init += this._singleImageTemplate(item), '')
+    }
+    catch(error) {
+      this._loaderComponent.removeLoader()
+      console.log(error);
+    }
   }
 
   render() {
