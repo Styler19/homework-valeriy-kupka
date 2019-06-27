@@ -5,9 +5,11 @@
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "npx webpack",
+    "dist": "npx webpack",
     "start:dev": "webpack-dev-server",
-    "watch": "npx webpack --watch"
+    "watch": "npx webpack --watch",
+    "start": "node server.js",
+    "heroku-postbuild": "webpack -p"
   },
   "keywords": [],
   "author": "",
@@ -27,6 +29,7 @@
   "dependencies": {
     "babel-polyfill": "^6.26.0",
     "bootstrap": "^4.3.1",
+    "express": "^4.17.1",
     "jwt-decode": "^2.2.0",
     "popper.js": "^1.15.0"
   }
